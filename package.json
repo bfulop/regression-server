@@ -1,0 +1,11 @@
+{
+  "name": "regression-watch",
+  "version": "0.0.1",
+  "description": "Fast continous frontend regression tests",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Balint Fulop <bfulop@mac.com> (http://abundancia.io/)",
+  "license": "MIT"
+}
