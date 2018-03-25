@@ -13,7 +13,7 @@ const displayResults = ({ route, width, targetelem, numDiffPixels }) => {
   return numDiffPixels
 }
 
-const runner = xt => {
+const runner = xt => () => {
   return new Promise((resolve, reject) => {
     setTimeout(function () {
       Promise.all(createTargetScreenshots('test')(xt))
@@ -39,7 +39,10 @@ puppeteer
         console.log('browsers setup start')
         startServer({
           compare: runner(r),
-          snapshot: x => createTargetScreenshots('golden')(r)
+          snapshot: x =>
+            Promise.all(createTargetScreenshots('golden')(r)).then(r => {
+              return { default: 'screenshots taken' }
+            })
         })
         // runner(r)
         return Promise.all(r)

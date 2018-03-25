@@ -1,8 +1,8 @@
 const path = require('path')
 
 const paths = {
-  test: path.resolve('./visual regression tests/testDir'),
-  golden: path.resolve('./visual regression tests/goldenDir')
+  test: path.resolve('./captures/testDir'),
+  golden: path.resolve('./captures/goldenDir')
 }
 
 const baseUrl = 'http://127.0.0.1:3014/app_dev.php/'

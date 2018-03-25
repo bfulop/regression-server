@@ -11,7 +11,8 @@ global.logger = r => {
   return r
 }
 
-const mergeRoutes = prop => R.compose(R.map(R.merge({ route: R.prop('route', prop) })))(R.prop('targets', prop))
+const mergeRoutes = prop =>
+  R.compose(R.map(R.merge({ route: R.prop('route', prop) })))(R.prop('targets', prop))
 
 const createTargets = prop => R.map(e => Object.assign({ element: e }, prop))(R.prop('elements', prop))
 
@@ -38,12 +39,12 @@ const safeCreatePath = (acc, path) => createFolder(`${acc}/${sanitizeText(path)}
 
 const createPath = R.reduce(safeCreatePath)
 
-async function takeAndCompareScreenshot(page, route, dir, filePrefix) {
+async function takeAndCompareScreenshot (page, route, dir, filePrefix) {
   const filename = await takeScreenshot(page, route, dir, filePrefix)
   return compareScreenshots(filename)
 }
 
-async function takeScreenshot(page, route, width, targetelem, dir) {
+async function takeScreenshot (page, route, width, targetelem, dir) {
   console.log('taking screenshot for', route, width, targetelem, dir)
   let filePath = createPath(R.prop(dir, paths), [route, width])
   const main = await page.$(targetelem)
@@ -52,19 +53,23 @@ async function takeScreenshot(page, route, width, targetelem, dir) {
     .then(e => ({ page, route, width, targetelem, dir }))
 }
 
-function compareScreenshots({ page, route, width, targetelem, dir }) {
+function compareScreenshots ({ page, route, width, targetelem, dir }) {
   return new Promise((resolve, reject) => {
     const img1 = fs
-      .createReadStream(`${createPath(R.prop('test', paths), [route, width])}/${sanitizeText(targetelem)}.png`)
+      .createReadStream(
+        `${createPath(R.prop('test', paths), [route, width])}/${sanitizeText(targetelem)}.png`
+      )
       .pipe(new PNG())
       .on('parsed', doneReading)
     const img2 = fs
-      .createReadStream(`${createPath(R.prop('golden', paths), [route, width])}/${sanitizeText(targetelem)}.png`)
+      .createReadStream(
+        `${createPath(R.prop('golden', paths), [route, width])}/${sanitizeText(targetelem)}.png`
+      )
       .pipe(new PNG())
       .on('parsed', doneReading)
 
     let filesRead = 0
-    function doneReading() {
+    function doneReading () {
       // Wait until both files are read.
       if (++filesRead < 2) return
 
@@ -74,11 +79,13 @@ function compareScreenshots({ page, route, width, targetelem, dir }) {
 
       // Do the visual diff.
       const diff = new PNG({ width: img1.width, height: img2.height })
-      const numDiffPixels = pixelmatch(img1.data, img2.data, diff.data, img1.width, img1.height, { threshold: 0.1 })
+      const numDiffPixels = pixelmatch(img1.data, img2.data, diff.data, img1.width, img1.height, {
+        threshold: 0.1
+      })
 
       // The files should look the same.
       // expect(numDiffPixels, 'number of different pixels').equal(0);
-      resolve(({ page, route, width, targetelem, dir, numDiffPixels }))
+      resolve({ page, route, width, targetelem, dir, numDiffPixels })
     }
   })
 }
