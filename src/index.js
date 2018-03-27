@@ -4,6 +4,17 @@ const { createTargetsList, createTargetScreenshots, compareScreenshots } = requi
 const { testtargets } = require('./targets')
 const { startServer } = require('./server')
 
+const addSandbox = R.compose(
+  R.or(
+    r => ({
+      args: ['--no-sandbox', '--disable-setuid-sandbox']
+    }),
+    r => null
+  ),
+  R.contains('nosandbox'),
+  R.drop(2)
+)
+
 const displayResults = ({ route, width, targetelem, numDiffPixels }) => {
   if (numDiffPixels > 100) {
     console.warn('diff ✗', route, width, targetelem, numDiffPixels)
@@ -32,7 +43,7 @@ const runner = xt => () => {
 }
 
 puppeteer
-  .launch()
+  .launch(addSandbox(process.argv))
   .then(b => {
     return Promise.all(createTargetsList(b)(testtargets))
       .then(r => {
