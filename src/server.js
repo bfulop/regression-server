@@ -2,7 +2,9 @@ const http = require('http')
 const R = require('ramda')
 
 const logger = r => {
+  console.log('logger')
   console.log(r)
+  console.log('logger end')
   return r
 }
 
@@ -32,7 +34,7 @@ const startServer = routes => {
     .createServer((req, res) => {
       let route = getRoute(req.url)(routes)
       route()
-        .then(R.compose(sendResult(res), JSON.stringify))
+        .then(R.compose(sendResult(res), JSON.stringify, logger))
         .catch(e => {
           console.error(e)
           return e

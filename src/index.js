@@ -21,21 +21,20 @@ const displayResults = ({ route, width, targetelem, numDiffPixels }) => {
   } else {
     console.log('diff ✓', route, width, targetelem, numDiffPixels)
   }
-  return numDiffPixels
+  return {route, width, targetelem, numDiffPixels}
 }
 
 const runner = xt => () => {
   return new Promise((resolve, reject) => {
     setTimeout(function () {
       Promise.all(createTargetScreenshots('test')(xt))
-        .then(R.map(compareScreenshots))
-        .then(R.map(r => r.then(displayResults)))
-        .then(r => {
-          resolve(xt)
-          return r
-        })
+        .then(r => Promise.all(R.map(compareScreenshots)(r)))
+        .then(R.map(displayResults))
+        .then(resolve)
         .catch(e => {
+          console.log('================ error ==============')
           console.error(e)
+          reject(e)
           return e
         })
     }, 300)
