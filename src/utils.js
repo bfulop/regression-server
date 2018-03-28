@@ -19,7 +19,7 @@ const createTargets = prop => R.map(e => Object.assign({ element: e }, prop))(R.
 const createPages = browser => async target => {
   const page = await browser.newPage()
   await page.setViewport({ width: target.width, height: 900 })
-  await page.goto(`${baseUrl}/${target.route}`)
+  await page.goto(`${baseUrl}/${target.route || ''}`)
   return Object.assign({}, { page }, target)
 }
 
