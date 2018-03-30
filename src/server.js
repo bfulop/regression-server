@@ -14,7 +14,7 @@ const defaultRoute = r => Promise.resolve({ default: 'default route' })
 
 const getRoute = url =>
   R.compose(
-    logger,
+    // logger,
     R.nth(1),
     R.head,
     R.when(R.isEmpty, r => [[null, defaultRoute]]),

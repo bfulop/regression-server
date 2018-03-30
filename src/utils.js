@@ -20,6 +20,7 @@ const createPages = browser => async target => {
   const page = await browser.newPage()
   await page.setViewport({ width: target.width, height: 900 })
   await page.goto(`${baseUrl}/${target.route || ''}`)
+  await page.addStyleTag({ content: '.sf-toolbar {display:none !important}' })
   return Object.assign({}, { page }, target)
 }
 
@@ -76,7 +77,7 @@ function compareScreenshots ({ page, route, width, targetelem, dir }) {
       const widthDiff = img1.width - img2.width
       const heightDiff = img1.height - img2.height
       if (widthDiff + heightDiff > 0) {
-        numDiffPixels = (widthDiff || 1) * (heightDiff || 1)
+        numDiffPixels = (widthDiff * img1.height) + (heightDiff * img1.width)
       } else {
         // Do the visual diff.
         const diff = new PNG({ width: img1.width, height: img2.height })
