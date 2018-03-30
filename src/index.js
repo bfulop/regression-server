@@ -37,7 +37,7 @@ const runner = xt => () => {
           reject(e)
           return e
         })
-    }, 300)
+    }, 0)
   })
 }
 
