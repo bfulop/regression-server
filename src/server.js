@@ -1,5 +1,7 @@
 const http = require('http')
 const R = require('ramda')
+const path = require('path')
+const ecstatic = require('ecstatic')
 
 const logger = r => {
   console.log('logger')
@@ -7,6 +9,11 @@ const logger = r => {
   console.log('logger end')
   return r
 }
+
+const st = ecstatic({
+  root: path.resolve('.'),
+  showdir: true
+})
 
 const isRoute = url => ([aroute]) => url.includes(aroute)
 
@@ -25,16 +32,23 @@ const getRoute = url =>
 
 const sendResult = response => result => {
   response.setHeader('content-type', 'application/json')
+  response.setHeader('Access-Control-Allow-Origin', '*')
   response.end(result)
   return 'done'
 }
+
+const sendJson = res => R.compose(sendResult(res), JSON.stringify, logger)
 
 const startServer = routes => {
   http
     .createServer((req, res) => {
       let route = getRoute(req.url)(routes)
       route()
-        .then(R.compose(sendResult(res), JSON.stringify, logger))
+        .then(R.ifElse(
+          R.prop('static'),
+          x => st(req, res),
+          sendJson(res)
+        ))
         .catch(e => {
           console.error(e)
           return e

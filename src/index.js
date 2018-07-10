@@ -48,6 +48,8 @@ puppeteer
       .then(r => {
         console.log('browsers setup start')
         startServer({
+          captures: x => Promise.resolve({static: true}),
+          targets: x => Promise.resolve(testtargets),
           compare: runner(r),
           snapshot: x =>
             Promise.all(createTargetScreenshots('golden')(r)).then(r => {
