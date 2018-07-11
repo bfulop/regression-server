@@ -18,7 +18,7 @@ let testtargets = [
         elements: []
       },
       {
-        width: 768,
+        width: 788,
         elements: []
       },
       {
