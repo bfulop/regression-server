@@ -12,7 +12,8 @@ const logger = r => {
 
 const st = ecstatic({
   root: path.resolve('.'),
-  showdir: true
+  showdir: false,
+  cache: 'max-age=0'
 })
 
 const isRoute = url => ([aroute]) => url.includes(aroute)
