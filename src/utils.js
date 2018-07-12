@@ -18,7 +18,7 @@ const createTargets = prop => R.map(e => Object.assign({ element: e }, prop))(R.
 
 const createPages = browser => async target => {
   const page = await browser.newPage()
-  await page.setViewport({ width: target.width, height: 900 })
+  await page.setViewport({ width: target.width, height: 2900 })
   await page.goto(`${baseUrl}/${target.route || ''}`)
   await page.addStyleTag({ content: '.sf-toolbar {display:none !important}' })
   return Object.assign({}, { page }, target)
