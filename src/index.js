@@ -16,11 +16,11 @@ const addSandbox = R.compose(
 )
 
 const displayResults = ({ route, width, targetelem, numDiffPixels }) => {
-  if (numDiffPixels > 100) {
-    console.warn('diff ✗', route, width, targetelem, numDiffPixels)
-  } else {
-    console.log('diff ✓', route, width, targetelem, numDiffPixels)
-  }
+  // if (numDiffPixels > 100) {
+  //   console.warn('diff ✗', route, width, targetelem, numDiffPixels)
+  // } else {
+  //   console.log('diff ✓', route, width, targetelem, numDiffPixels)
+  // }
   return {route, width, targetelem, numDiffPixels}
 }
 

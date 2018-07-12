@@ -46,12 +46,24 @@ async function takeAndCompareScreenshot (page, route, dir, filePrefix) {
 }
 
 async function takeScreenshot (page, route, width, targetelem, dir) {
-  console.log('taking screenshot for', route, width, targetelem, dir)
   let filePath = createPath(R.prop(dir, paths), [route, width])
   const main = await page.$(targetelem)
+  if(!main) {
+    console.log(route, targetelem)
+    console.log(main.screenshot)
+  }
   return main
     .screenshot({ path: `${filePath}/${sanitizeText(targetelem)}.png` })
+    .then(e => {
+      console.log('srceenshot created for', route, width, targetelem, dir)
+      return e
+    })
     .then(e => ({ page, route, width, targetelem, dir }))
+    // .catch(e => {
+    //   console.log('error screenshot !!!!!!!!!!')
+    //   console.log(route, targetelem)
+    //   return e
+    // })
 }
 
 function compareScreenshots ({ page, route, width, targetelem, dir }) {

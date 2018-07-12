@@ -27,24 +27,60 @@ let testtargets = [
       }
     ]
   },
-  // {
-  //   route: null,
-  //   elements: ['li.filmcard', '.homehero'],
-  //   targets: [
-  //     {
-  //       width: 1200,
-  //       elements: []
-  //     },
-  //     {
-  //       width: 768,
-  //       elements: []
-  //     },
-  //     {
-  //       width: 383,
-  //       elements: []
-  //     }
-  //   ]
-  // }
+  {
+    route: null,
+    elements: ['.myfilmsfilter', '.filmcards__header', '.filmcard:nth-child(2)', '.filmcard:first-child'],
+    targets: [
+      {
+        width: 1200,
+        elements: []
+      },
+      {
+        width: 768,
+        elements: []
+      },
+      {
+        width: 383,
+        elements: []
+      }
+    ]
+  },
+  {
+    route: 'festivals',
+    elements: ['.festlistfilter', '.upcoming.upcoming--festival', '.festlist > .searchresult .searchresult__item--inpage'],
+    targets: [
+      {
+        width: 1200,
+        elements: []
+      },
+      {
+        width: 768,
+        elements: []
+      },
+      {
+        width: 383,
+        elements: []
+      }
+    ]
+  },
+  {
+    route: 'festival/show/my-festival/2014',
+    elements: ['.festivalheader__texts','.festivalheader__details', '.festivalsections', '.aproject__header', '.aproject__worklist .aproject__sectionheader'],
+    targets: [
+      {
+        width: 1200,
+        elements: []
+      },
+      {
+        width: 768,
+        elements: []
+      },
+      {
+        width: 383,
+        elements: []
+      }
+    ]
+  }
 ]
 
 function mergeTargetElements (anelem) {

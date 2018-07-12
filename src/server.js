@@ -38,8 +38,6 @@ const sendResult = response => result => {
   return 'done'
 }
 
-const sendJson = res => R.compose(sendResult(res), JSON.stringify, logger)
-
 const startServer = routes => {
   http
     .createServer((req, res) => {
@@ -48,7 +46,7 @@ const startServer = routes => {
         .then(R.ifElse(
           R.prop('static'),
           x => st(req, res),
-          sendJson(res)
+          r => R.compose(sendResult(res), JSON.stringify)(r)
         ))
         .catch(e => {
           console.error(e)
