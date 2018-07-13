@@ -6,7 +6,7 @@ const paths = {
   golden: path.resolve('./captures/goldenDir')
 }
 
-const baseUrl = 'http://127.0.0.1:3014/app_dev.php/'
+const baseUrl = 'http://localhost:3014/app_dev.php'
 
 let testtargets = [
   {
